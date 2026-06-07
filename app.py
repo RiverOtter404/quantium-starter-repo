@@ -8,8 +8,8 @@ DATA_PATH = "proccessed_sales_data.csv"
 app = Dash()
 
 colours = {
-    'background': "#1D1C1C",
-    'text': "#4EAB39"
+    'background': "#241B1B",
+    'text': "#5385C8"
 }
 
 sales: list[float] = []
@@ -30,20 +30,56 @@ dataFrame = pandas.DataFrame({
     "Region": region
 })
 
-app.layout = html.Div(children=[
+app.index_string = """
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                background-color: #1e1e1e; 
+            }
+        </style>
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+"""
+
+app.layout = html.Div(
+    
+    style={
+        'backgroundColor': colours['background'],
+        "minHeight": "100vh",
+        "padding": "20px"
+    },
+
+    children=[
     html.H1(
         children='Sales Data', 
-        style={'color': colours['text']}
+        style={'color': colours['text'], "textAlign": "center"}
     ),
 
     html.Div(
         children='The sales data for Pink Morsels',
-        style={'color':colours['text']}
+        style={'color':colours['text'], "textAlign": "center"}
     ),
 
     html.Div(
         children='Select Region:',
-        style={'color':colours['text']}
+        style={'color':colours['text'], "textAlign": "center"}
     ),
 
     dcc.RadioItems(
@@ -56,7 +92,8 @@ app.layout = html.Div(children=[
         ],
         value='north', 
         labelStyle={'display': 'block'},
-        inline=True
+        inline=True,
+        style={"textAlign": "center"}
     ),
 
     dcc.Graph(
